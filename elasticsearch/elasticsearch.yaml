@@ -1,0 +1,19 @@
+path:
+  data: /volumes
+  logs: /var/log/elasticsearch
+cluster.name: graylog2
+node.name: elasic
+node.master: true
+index.number_of_shards: 5
+index.number_of_replicas: 1
+network.net.preferIPv4Stack: true
+network.bind_host: _site_
+network.host: _site_
+transport.tcp.port: 9300-9400
+http.port: 9200-9300
+discovery.zen.ping.timeout: 30s
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["localhost:9300"]
+action.disable_delete_all_indices: true
+action.auto_create_index: true
+bootstrap.mlockall: true

@@ -1,0 +1,207 @@
+{
+  "id" : null,
+  "name" : "vmWare Content Pack",
+  "description" : "# vmWare Content Pack\r\n\r\nThis content pack provides you with:\r\n - vmWare: vMotionBandwidth stream\r\n -  vmWare: Can't convert IP address of type 0 stream\r\n -  my humble vmWare dashboard\r\n -  A few vmWare extractors\r\n \r\nSince vmWare doesn't output RFC compliant syslog, I use a logStash conversion instance on my Graylog2 servers.\r\n\r\nMy logstash config for vmWare syslog messages:\r\n```sh\r\ninput {\r\n  syslog {\r\n    port => 1514\r\n  }\r\n}\r\n\r\nfilter {\r\n  dns {\r\n    reverse => [ \"host\" ]\r\n    action => [ \"replace\" ]\r\n    add_tag => [ \"dns\" ]\r\n  }\r\n}\r\n\r\noutput {\r\n  gelf {\r\n    chunksize => 1420\r\n    facility  => 'logstash-gelf'\r\n    host      => '127.0.0.1'\r\n    port      => 12204\r\n  }\r\n}\r\n``` \r\n\r\nAs you can see, I catch the syslog info on port 1514 (a port which is easily configured as syslog port in ESX).\r\n\r\nLogstash then converts the (now valid) syslog message into the GELF format we know and love and sends it to port 12204 on the local host, where we have a (global) GELF UDP listener.\r\n\r\nIt's easy as Pi.",
+  "category" : "vmWare",
+  "inputs" : [ {
+    "title" : "Logconverter Non-RFC Compliant -> GELF",
+    "configuration" : {
+      "recv_buffer_size" : 1048576,
+      "port" : 12204,
+      "bind_address" : "0.0.0.0"
+    },
+    "type" : "org.graylog2.inputs.gelf.udp.GELFUDPInput",
+    "global" : true,
+    "extractors" : [ {
+      "title" : "vmWareVersion",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*version=(\\d[0-9]{0,9}\\.\\d[0-9]{0,9}\\.\\d[0-9]{0,9})"
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "vmWareVersion",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(Section for VMware ESX)"
+    }, {
+      "title" : "vmWare: vmWareBuild",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*build=(\\d[0-9]{0,9})"
+      },
+      "converters" : [ {
+        "type" : "NUMERIC",
+        "configuration" : { }
+      } ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "vmWareBuild",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(Section for VMware ESX)"
+    }, {
+      "title" : "vmWareIfUp",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*ifup: (.+) device:"
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "vmWareIfup",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(ifup:.+ device:.+)"
+    }, {
+      "title" : "vmWareIfDevice",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*device: (.+)$"
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "vmWareIfDevice",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(ifup:.+ device:.*)"
+    }, {
+      "title" : "vMotionBandwidth",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*~(\\d[0-9]{0,9}\\.\\d[0-9]{0,9})"
+      },
+      "converters" : [ {
+        "type" : "NUMERIC",
+        "configuration" : { }
+      } ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "vMotionBandwidth",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(VMotion:.* pages)"
+    }, {
+      "title" : "VMware Migration Source IP",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*src ip = <(\\d[0-9]{0,3}\\.\\d[0-9]{0,3}\\.\\d[0-9]{0,3}\\.\\d[0-9]{0,3})"
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "VMwareMigrateSource",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(Setting VMOTION info:)"
+    }, {
+      "title" : "VMware Migration Destination IP",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*dest ip = <(\\d[0-9]{0,3}\\.\\d[0-9]{0,3}\\.\\d[0-9]{0,3}\\.\\d[0-9]{0,3})"
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "VMwareMigrateDestination",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(Setting VMOTION info:)"
+    }, {
+      "title" : "vmWare Working Directory",
+      "type" : "REGEX",
+      "configuration" : {
+        "regex_value" : "^.*Current working directory: (.*)"
+      },
+      "converters" : [ ],
+      "order" : 0,
+      "cursor_strategy" : "COPY",
+      "target_field" : "vmWareWorkDir",
+      "source_field" : "message",
+      "condition_type" : "REGEX",
+      "condition_value" : "^.*(Current working directory:)"
+    } ],
+    "static_fields" : { }
+  } ],
+  "streams" : [ {
+    "id" : "5465b758e4b0db9016e405d1",
+    "title" : "vmWare: vMotionBandwidth",
+    "description" : "MB's of vmotion bandwidth",
+    "disabled" : false,
+    "outputs" : [ ],
+    "stream_rules" : [ {
+      "type" : "PRESENCE",
+      "field" : "vMotionBandwidth",
+      "value" : "0",
+      "inverted" : false
+    } ]
+  }, {
+    "id" : "5461ca82e4b089c4a31d36a7",
+    "title" : "vmWare: Can't convert IP address of type 0",
+    "description" : "VMware IP address 0 messages",
+    "disabled" : false,
+    "outputs" : [ ],
+    "stream_rules" : [ {
+      "type" : "REGEX",
+      "field" : "message",
+      "value" : "Can't convert IP Address of type 0",
+      "inverted" : false
+    } ]
+  } ],
+  "outputs" : [ ],
+  "dashboards" : [ {
+    "title" : "VMware Dashboard",
+    "description" : "Dashboard containing VMware stuff",
+    "dashboard_widgets" : [ {
+      "description" : "Can't convert IP address of type 0",
+      "type" : "QUICKVALUES",
+      "configuration" : {
+        "field" : "logsource",
+        "query" : "*",
+        "timerange" : {
+          "range" : 300,
+          "type" : "relative"
+        },
+        "stream_id" : "5461ca82e4b089c4a31d36a7"
+      },
+      "col" : 1,
+      "row" : 2,
+      "cache_time" : 10
+    }, {
+      "description" : "vMotion Bandwidth Consumption",
+      "type" : "FIELD_CHART",
+      "configuration" : {
+        "field" : "vMotionBandwidth",
+        "valuetype" : "mean",
+        "interval" : "hour",
+        "query" : "*",
+        "timerange" : {
+          "range" : 604800,
+          "type" : "relative"
+        },
+        "interpolation" : "basis",
+        "stream_id" : "5465b758e4b0db9016e405d1",
+        "renderer" : "line"
+      },
+      "col" : 1,
+      "row" : 4,
+      "cache_time" : 10
+    }, {
+      "description" : "Total count (Can't convert IP address of type 0) 5 min.",
+      "type" : "STREAM_SEARCH_RESULT_COUNT",
+      "configuration" : {
+        "query" : "*",
+        "timerange" : {
+          "range" : 300,
+          "type" : "relative"
+        },
+        "stream_id" : "5461ca82e4b089c4a31d36a7"
+      },
+      "col" : 1,
+      "row" : 1,
+      "cache_time" : 10
+    } ]
+  } ]
+}

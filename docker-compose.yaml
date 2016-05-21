@@ -1,0 +1,35 @@
+version: '2'
+services:
+ mongodb-replica:
+    image: mongodb
+    ports:
+     - "27017:27017"
+     - "27018:27018"
+     - "27019:27019"
+  elastic:
+    image: elasticsearch
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+ es_slave:
+    image: es_slave'
+    ports:
+     - "9301:9301"
+     - "9201:9201"
+    links:
+     - elastic
+    depends_on: 
+     - elastic
+ graylog2:
+    image: graylog2:2.0.1'
+    ports:
+     - "80:80"
+     - "9350:9350"
+     - "12201:12201"
+     - "12201:12201/udp"
+     - "12900:12900"
+    links:
+     - elastic
+     - mongodb
+    depends_on: 
+     - mongodb
