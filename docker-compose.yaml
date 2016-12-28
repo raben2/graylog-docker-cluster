@@ -1,6 +1,6 @@
 version: '2'
 services:
- mongodb-replica:
+  mongodb:
     build: ./mongodb
     ports:
      - "27017:27017"
@@ -11,7 +11,7 @@ services:
     ports:
      - "9200:9200"
      - "9300:9300"
- es_slave:
+  es_slave:
     build: ./es_slave
     ports:
      - "9301:9301"
@@ -20,7 +20,7 @@ services:
      - elastic
     depends_on: 
      - elastic
- graylog2:
+  graylog2:
     build: ./graylog2-2.1.2
     ports:
      - "80:80"
