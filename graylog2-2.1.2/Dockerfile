@@ -1,11 +1,12 @@
-FROM java-jdk:1.8
+FROM anapsix/alpine-java:8_server-jre_unlimited
 
-ENV GL_VERSION=2.0.1
+ENV GL_VERSION=2.1.2
 ENV REPO_URL=https://packages.graylog2.org/releases/graylog/graylog-${GL_VERSION}.tgz
 USER root
-
+RUN apk add --update wget
 RUN \
-  wget ${REPO_URL} && \
+  wget --no-check-certificate ${REPO_URL}
+RUN \
   tar zxfv graylog-$GL_VERSION.tgz && \
   rm -rf graylog-$GL_VERSION.tgz && \
   ln -sf graylog-$GL_VERSION graylog

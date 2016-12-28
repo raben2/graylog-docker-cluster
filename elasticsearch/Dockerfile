@@ -5,10 +5,10 @@ ENV CLUSTER_NAME graylog2
 
 USER root
 VOLUME /volumes/$CLUSTER_NAME 
-
+RUN apk add --update wget
 RUN \
 	mkdir /var/log/elasticsearch && \
-	wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz && \
+ 	wget --no-check-certificate https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz && \
 	tar xvzf elasticsearch-$ES_VERSION.tar.gz && \
 	rm -rf elasticsearch-$ES_VERSION.tar.gz && \
 	mv elasticsearch-$ES_VERSION /elasticsearch && \

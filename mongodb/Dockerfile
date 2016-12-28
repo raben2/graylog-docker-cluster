@@ -1,9 +1,11 @@
-FROM centos7-base
+FROM alpine:edge
 MAINTAINER Georg Rabenstein <georg.rabenstein@deposit-solutions.com>
 
-ADD mongo.repo /etc/yum.repos.d/mongodb.repo
-
-RUN yum -y install mongodb-org mongodb-org-server
+RUN \
+echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
+RUN \
+apk add --no-cache mongodb && \
+rm /usr/bin/mongosniff /usr/bin/mongoperf
 
 USER root
 VOLUME /volumes/db
