@@ -4,7 +4,7 @@ MAINTAINER Georg Rabenstein <georg.rabenstein@deposit-solutions.com>
 RUN \
 echo http://dl-3.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
 RUN \
-apk add --no-cache mongodb && \
+apk add --no-cache mongodb bash && \
 rm /usr/bin/mongosniff /usr/bin/mongoperf
 
 USER root
