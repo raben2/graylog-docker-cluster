@@ -1,11 +1,11 @@
 FROM elasticsearch
 MAINTAINER Georg Rabenstein @raben2
+
+USER elasticsearch
 WORKDIR /elasticsearch
 ADD elasticsearch.yaml config/elasticsearch.yml
-
-ENV JAVA_HOME /usr/lib/jvm/java
 
 EXPOSE 9201
 EXPOSE 9301
 
-CMD ["bin/elasticsearch", "-d"]
+ENTRYPOINT ["bin/elasticsearch"]

@@ -1,6 +1,6 @@
 path:
-  data: /volumes
-  logs: /var/log/elasticsearch
+  data: /elasticsearch/volumes
+  logs: /elasticsearch/log
 cluster.name: graylog2
 node.name: elasic
 node.master: true
@@ -13,7 +13,7 @@ transport.tcp.port: 9300-9400
 http.port: 9200-9300
 discovery.zen.ping.timeout: 30s
 discovery.zen.ping.multicast.enabled: false
-discovery.zen.ping.unicast.hosts: ["localhost:9300"]
+discovery.zen.ping.unicast.hosts: ["es-slave:9301"]
 action.disable_delete_all_indices: true
 action.auto_create_index: true
 bootstrap.mlockall: true

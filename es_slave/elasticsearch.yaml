@@ -1,6 +1,6 @@
 path:
-  data: /volumes
-  logs: /var/log/elasticsearch
+  data: /elasticsearch/volumes
+  logs: /elasticsearch/logs
 cluster.name: graylog2
 node.name: elasic_slave
 node.master: false

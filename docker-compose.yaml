@@ -4,17 +4,16 @@ services:
     build: ./java
     image: java-jre:1.8
   mongodb:
-    build: ./mongodb
+    image: mongo
     container_name: mongodb-replica
     networks:
         graylog:
     ports:
      - "27017:27017"
-     - "27018:27018"
-     - "27019:27019"
   elastic:
     image: elasticsearch
     build: ./elasticsearch
+    container_name: elastic
     networks:
         graylog:
     ports:
@@ -24,6 +23,7 @@ services:
      - java
   es_slave:
     build: ./es_slave
+    container_name: es-slave
     ports:
      - "9301:9301"
      - "9201:9201"

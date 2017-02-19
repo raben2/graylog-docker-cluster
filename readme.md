@@ -23,3 +23,9 @@ docker-compose logs -f
 #### Graylog ui
 http://localhost:8080/
 
+login with 
+admin
+s3cur3p4ssw0rd
+
+A default input will be running at 
+udp://localhost:12201

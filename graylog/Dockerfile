@@ -12,6 +12,9 @@ RUN \
   ln -sf graylog-$GL_VERSION graylog
 
 
+RUN mkdir /contentpacks
+ADD config/input.json /contentpacks/input.json
+ADD config/grok.json /contentpacks/grok.json
 RUN ln -sf /graylog-${GL_VERSION} /graylog
 ADD config/graylog2.conf /etc/graylog/server/server.conf
 ADD run/graylog.sh /graylog/bin/graylog2.sh
