@@ -6,10 +6,10 @@ job1:
   script: 
     - docker-compose up -d
   tags: 
-    - local
+    - shell
 job3:
   stage: test
   script:
     - "curl http://localhost:8080/"
   tags: 
-    - local 
+    - shell 
