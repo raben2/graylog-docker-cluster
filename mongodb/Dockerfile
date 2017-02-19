@@ -2,7 +2,7 @@ FROM alpine:edge
 MAINTAINER Georg Rabenstein <georg.rabenstein@deposit-solutions.com>
 
 RUN \
-echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
+echo http://dl-3.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
 RUN \
 apk add --no-cache mongodb && \
 rm /usr/bin/mongosniff /usr/bin/mongoperf

@@ -1,5 +1,8 @@
 version: '2'
 services:
+  java:
+    build: ./java
+    image: java-jre:1.8
   mongodb:
     build: ./mongodb
     ports:
@@ -7,10 +10,13 @@ services:
      - "27018:27018"
      - "27019:27019"
   elastic:
+    image: elasticsearch
     build: ./elasticsearch
     ports:
      - "9200:9200"
      - "9300:9300"
+    depends_on:
+     - java
   es_slave:
     build: ./es_slave
     ports:
@@ -19,9 +25,11 @@ services:
     links:
      - elastic
     depends_on: 
+     - java
      - elastic
   graylog2:
-    build: ./graylog2-2.1.2
+    build: ./graylog
+    image: graylog
     ports:
      - "80:80"
      - "9350:9350"
@@ -32,4 +40,5 @@ services:
      - elastic
      - mongodb
     depends_on: 
+     - java
      - mongodb

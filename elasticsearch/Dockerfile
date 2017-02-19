@@ -1,6 +1,6 @@
-FROM java-jdk:1.8
+FROM java-jre:1.8
 MAINTAINER Georg Rabenstein <georg.rabenstein@deposit-solutions.com>
-ENV ES_VERSION 2.3.2
+ENV ES_VERSION 5.2.1
 ENV CLUSTER_NAME graylog2
 
 USER root
@@ -8,7 +8,7 @@ VOLUME /volumes/$CLUSTER_NAME
 RUN apk add --update wget
 RUN \
 	mkdir /var/log/elasticsearch && \
- 	wget --no-check-certificate https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ES_VERSION.tar.gz && \
+ 	wget --no-check-certificate https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ES_VERSION.tar.gz && \
 	tar xvzf elasticsearch-$ES_VERSION.tar.gz && \
 	rm -rf elasticsearch-$ES_VERSION.tar.gz && \
 	mv elasticsearch-$ES_VERSION /elasticsearch && \
