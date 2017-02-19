@@ -1,0 +1,15 @@
+stages:
+  - build
+  - test
+job1: 
+  stage: build
+  script: 
+    - docker-compose up -d
+  tags: 
+    - local
+job3:
+  stage: test
+  script:
+    - "curl http://localhost:8080/"
+  tags: 
+    - local 
