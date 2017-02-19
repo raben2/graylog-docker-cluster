@@ -31,7 +31,7 @@ services:
     build: ./graylog
     image: graylog
     ports:
-     - "80:80"
+     - "8080:80"
      - "9350:9350"
      - "12201:12201"
      - "12201:12201/udp"
