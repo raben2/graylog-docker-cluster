@@ -1,0 +1,16 @@
+stages:
+  - build
+  - test
+job1: 
+  stage: build
+  script: 
+    - docker-compose up -d
+  tags: 
+    - shell
+job3:
+  stage: test
+  script:
+    - "wait 90"
+    - "curl http://localhost:8081/"
+  tags: 
+    - shell 
