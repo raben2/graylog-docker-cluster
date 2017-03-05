@@ -1,6 +1,6 @@
 FROM java-jre:1.8
 
-ENV GL_VERSION=2.2.0
+ENV GL_VERSION=2.2.2
 ENV REPO_URL=https://packages.graylog2.org/releases/graylog/graylog-${GL_VERSION}.tgz
 USER root
 RUN apk add --update wget
