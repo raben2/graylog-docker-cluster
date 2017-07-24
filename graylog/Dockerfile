@@ -13,7 +13,7 @@ RUN \
 
 RUN adduser -S graylog && \
     mkdir /contentpacks && \
-    chown -R graylog /graylog /contentpacks
+    chown -R graylog /gray* /contentpacks
 USER graylog 
 ADD config/input.json /contentpacks/input.json
 ADD config/grok.json /contentpacks/grok.json
