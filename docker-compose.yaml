@@ -4,7 +4,7 @@ services:
     build: ./java
     image: java-jre:1.8
   mongodb:
-    image: mongo
+    image: mongo:2.6
     container_name: mongodb-replica
     networks:
         graylog:
@@ -37,6 +37,7 @@ services:
   graylog2:
     build: ./graylog
     image: graylog
+    privileged: true
     networks:
         graylog:
     ports:
