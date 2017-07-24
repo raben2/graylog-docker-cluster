@@ -10,6 +10,7 @@ services:
         graylog:
     ports:
      - "27017:27017"
+     - "28574:28574"
   elastic:
     image: elasticsearch
     build: ./elasticsearch
