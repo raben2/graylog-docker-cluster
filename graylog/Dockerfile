@@ -10,6 +10,7 @@ RUN \
   tar zxfv graylog-$GL_VERSION.tgz && \
   rm -rf graylog-$GL_VERSION.tgz && \
   ln -sf graylog-$GL_VERSION graylog
+ADD run/graylog.sh /graylog/bin/graylog2.sh
 
 RUN adduser -S graylog && \
     mkdir /contentpacks && \
@@ -18,7 +19,7 @@ USER graylog
 ADD config/input.json /contentpacks/input.json
 ADD config/grok.json /contentpacks/grok.json
 RUN ln -sf /graylog-${GL_VERSION} /graylog
-ADD config/graylog2.conf /graylog/server.conf
+ADD config/graylog2.conf /etc/graylog/server/server.conf
 
 RUN rm -f /graylog/plugin/graylog-plugin-anonymous-usage-statistics-${GL_VERSION}.jar
 
@@ -26,4 +27,4 @@ EXPOSE 12900
 EXPOSE 12201
 EXPOSE 9350
 
-ENTRYPOINT ["/graylog/bin/graylogctl", "-f", "/graylog/server.conf", "-d", "run"]
+ENTRYPOINT ["java", "-Djava.net.preferIPv4Stack=true", "-jar", "/graylog/graylog.jar"]
