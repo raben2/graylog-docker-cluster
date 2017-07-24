@@ -30,4 +30,4 @@ EXPOSE 12201
 EXPOSE 9350
 ENV JAVA_OPTS="-Djava.library.path=/graylog/lib/sigar -Xms1g -Xmx1g -XX:NewRatio=1 -server -XX:+ResizeTLAB -XX:+UseConcMarkSweepGC -XX:+CMSConcurrentMTEnabled -XX:+CMSClassUnloadingEnabled -XX:+UseParNewGC -XX:-OmitStackTraceInFastThrow -Djava.net.preferIPv4Stack=true"
 
-ENTRYPOINT ["java", "$JAVA_OPTS", "-jar", "/graylog/graylog.jar", "server"]
+ENTRYPOINT ["java", "-jar", "$JAVA_OPTS", "/graylog/graylog.jar", "server"]
