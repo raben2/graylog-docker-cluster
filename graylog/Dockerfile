@@ -10,7 +10,6 @@ RUN \
   tar zxfv graylog-$GL_VERSION.tgz && \
   rm -rf graylog-$GL_VERSION.tgz && \
   ln -sf graylog-$GL_VERSION graylog
-ADD run/graylog.sh /graylog/bin/graylog2.sh
 
 RUN adduser -S graylog && \
     mkdir /contentpacks && \
