@@ -20,10 +20,11 @@ ADD config/grok.json /contentpacks/grok.json
 RUN ln -sf /graylog-${GL_VERSION} /graylog
 ADD config/graylog2.conf /etc/graylog/server/server.conf
 
-RUN rm -f /graylog/plugin/graylog-plugin-anonymous-usage-statistics-${GL_VERSION}.jar
+RUN rm -f /graylog/plugin/graylog-plugin-anonymous-usage-statistics-${GL_VERSION}.jar && \
+	rm -f /graylog/plugin/graylog-plugin-pipeline-processor=${GL_VERSION}.jar
 
 EXPOSE 12900
 EXPOSE 12201
 EXPOSE 9350
 
-ENTRYPOINT ["java", "-Djava.net.preferIPv4Stack=true", "-jar", "/graylog/graylog.jar"]
+ENTRYPOINT ["java", "-Djava.net.preferIPv4Stack=true", "-jar", "/graylog/graylog.jar", "server"]
