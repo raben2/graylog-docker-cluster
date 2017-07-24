@@ -19,7 +19,7 @@ ADD config/input.json /contentpacks/input.json
 ADD config/grok.json /contentpacks/grok.json
 RUN ln -sf /graylog-${GL_VERSION} /graylog
 ADD config/graylog2.conf /etc/graylog/server/server.conf
-RUN mkdir /graylog/
+
 RUN rm -f /graylog/plugin/graylog-plugin-anonymous-usage-statistics-${GL_VERSION}.jar && \
 	rm -f /graylog/plugin/graylog-plugin-pipeline-processor-${GL_VERSION}.jar && \
 	rm -f /graylog/plugin/graylog-plugin-enterprise-integration-${GL_VERSION}.jar && \
