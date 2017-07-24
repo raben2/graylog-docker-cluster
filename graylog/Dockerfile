@@ -4,7 +4,8 @@ ENV GL_VERSION=2.2.3
 ENV REPO_URL=https://packages.graylog2.org/releases/graylog/graylog-${GL_VERSION}.tgz
 
 USER root
-RUN curl -k -O graylog-$GL_VERSION.tgz ${REPO_URL}
+RUN apk add --nochache curl && \
+	curl -k -O graylog-$GL_VERSION.tgz ${REPO_URL}
 RUN \
   tar zxfv graylog-$GL_VERSION.tgz && \
   rm -rf graylog-$GL_VERSION.tgz && \
