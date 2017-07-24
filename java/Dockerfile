@@ -1,5 +1,5 @@
 FROM alpine:3.4
-Maintainer Georg Rabenstein <georg.rabenstein@deposit-solutions.com>
+Maintainer Georg Rabenstein <rabensteingeorg@gmail.com>
 
 USER root 
 RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \

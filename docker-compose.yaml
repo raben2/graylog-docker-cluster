@@ -6,8 +6,6 @@ services:
   mongodb:
     image: mongo:2.6
     container_name: mongodb
-    networks:
-        graylog:
     ports:
      - "27017:27017"
      - "28574:28574"
@@ -15,8 +13,6 @@ services:
     image: elasticsearch
     build: ./elasticsearch
     container_name: elastic
-    networks:
-        graylog:
     ports:
      - "9200:9200"
      - "9300:9300"
@@ -30,8 +26,6 @@ services:
      - "9201:9201"
     links:
      - elastic
-    networks:
-        graylog:
     depends_on: 
      - java
      - elastic
@@ -39,8 +33,6 @@ services:
     build: ./graylog
     image: graylog
     privileged: true
-    networks:
-        graylog:
     ports:
      - "9350:9350"
      - "12201:12201"
@@ -52,5 +44,3 @@ services:
     depends_on: 
      - java
      - mongodb
-networks:
-  graylog:
