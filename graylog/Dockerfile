@@ -26,4 +26,4 @@ EXPOSE 12900
 EXPOSE 12201
 EXPOSE 9350
 
-ENTRYPOINT ["/graylog/bin/graylogctl", "run", "-d", "-f", "/graylog/server.conf"]
+ENTRYPOINT ["/graylog/bin/graylogctl", "-f", "/graylog/server.conf", "-d", "run"]
