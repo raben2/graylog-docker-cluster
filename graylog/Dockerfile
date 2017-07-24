@@ -5,13 +5,13 @@ ENV REPO_URL=https://packages.graylog2.org/releases/graylog/graylog-${GL_VERSION
 
 USER root
 RUN apk add --no-cache wget
-RUN	wget --no-check-certificate graylog-$GL_VERSION.tgz ${REPO_URL}
+RUN	wget -q --no-check-certificate ${REPO_URL}
 RUN \
   tar zxfv graylog-$GL_VERSION.tgz && \
   rm -rf graylog-$GL_VERSION.tgz && \
   ln -sf graylog-$GL_VERSION graylog
 
-RUN adduser -s graylog && \
+RUN adduser -S graylog && \
     mkdir /contentpacks && \
     chown -R graylog /graylog /contentpacks
 USER graylog 
