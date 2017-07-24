@@ -5,7 +5,7 @@ services:
     image: java-jre:1.8
   mongodb:
     image: mongo:2.6
-    container_name: mongodb-replica
+    container_name: mongodb
     networks:
         graylog:
     ports:
@@ -41,7 +41,6 @@ services:
     networks:
         graylog:
     ports:
-     - "8081:80"
      - "9350:9350"
      - "12201:12201"
      - "12201:12201/udp"
